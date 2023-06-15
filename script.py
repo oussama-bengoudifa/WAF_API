@@ -1,0 +1,4 @@
+import requests
+
+
+token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY4Njg1NjYzMiwiZXhwIjoxNjg2OTQzMDMyfQ.RDbJrv3U_Q5zrqD3NAtZrefati8EBMxlm0kptI0WiEY"

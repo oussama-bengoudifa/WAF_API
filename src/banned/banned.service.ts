@@ -11,10 +11,11 @@ export class BannedService {
   constructor(@InjectRepository(Banned) private repo: Repository<Banned>) {}
   async create(createBannedDto: CreateBannedDto, file: string) {
     const { ipAddress, date, userAgent, requestId } = createBannedDto;
+
     const banned = this.repo.create({
       ipAddress,
       date,
-      userAgent,
+      userAgent: userAgent ?? '',
       requestId,
       file,
     });
@@ -22,10 +23,16 @@ export class BannedService {
     return banned;
   }
 
-  async findAll() {
-    const banned = await this.repo.find();
+  async findAll(ipAddress: string) {
+    const options = !ipAddress ? {} : { where: { ipAddress } };
+
+    const banned = await this.repo.find(options);
 
     return banned;
+  }
+
+  async ipAddressExists() {
+    return 'banned';
   }
 
   async findOne(id: number) {

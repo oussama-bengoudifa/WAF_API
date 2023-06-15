@@ -11,7 +11,7 @@ export class Banned {
   @Column()
   date: string;
 
-  @Column()
+  @Column({ nullable: true, default: null })
   userAgent: string;
 
   @Column()

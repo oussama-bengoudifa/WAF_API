@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { BannedService } from './banned.service';
 import { CreateBannedDto } from './dto/create-banned.dto';
@@ -47,8 +48,8 @@ export class BannedController {
 
   @UseGuards(AdminAccessGuard)
   @Get()
-  findAll() {
-    return this.bannedService.findAll();
+  findAll(@Query('ipAddress') ipAddress: string) {
+    return this.bannedService.findAll(ipAddress);
   }
 
   @UseGuards(AdminAccessGuard)
