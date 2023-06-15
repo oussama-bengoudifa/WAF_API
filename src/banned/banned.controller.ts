@@ -48,14 +48,20 @@ export class BannedController {
 
   @UseGuards(AdminAccessGuard)
   @Get()
-  findAll(@Query('ipAddress') ipAddress: string) {
-    return this.bannedService.findAll(ipAddress);
+  findAll() {
+    return this.bannedService.findAll();
   }
 
   @UseGuards(AdminAccessGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bannedService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.bannedService.findOne(id);
+  }
+
+  @UseGuards(AdminAccessGuard)
+  @Get('/ipAddress/:ipAddress')
+  ipAdressExists(@Param('ipAddress') ipAddress: string) {
+    return this.bannedService.ipAdressExists(ipAddress);
   }
 
   @UseGuards(AdminAccessGuard)

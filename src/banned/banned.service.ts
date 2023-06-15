@@ -23,16 +23,16 @@ export class BannedService {
     return banned;
   }
 
-  async findAll(ipAddress: string) {
-    const options = !ipAddress ? {} : { where: { ipAddress } };
-
-    const banned = await this.repo.find(options);
+  async findAll() {
+    const banned = await this.repo.find();
 
     return banned;
   }
 
-  async ipAddressExists() {
-    return 'banned';
+  async ipAdressExists(ipAddress: string) {
+    const banned = await this.repo.findOne({ where: { ipAddress } });
+
+    return Boolean(banned);
   }
 
   async findOne(id: number) {
