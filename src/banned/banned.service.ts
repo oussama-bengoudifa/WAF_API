@@ -5,10 +5,14 @@ import { Banned } from './entities/banned.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { unlinkSync } from 'fs';
+import { TwilioService } from 'nestjs-twilio';
 
 @Injectable()
 export class BannedService {
-  constructor(@InjectRepository(Banned) private repo: Repository<Banned>) {}
+  constructor(
+    @InjectRepository(Banned) private repo: Repository<Banned>,
+    private readonly twilioService: TwilioService,
+  ) {}
   async create(createBannedDto: CreateBannedDto, file: string) {
     const { ipAddress, date, userAgent, requestId } = createBannedDto;
 
@@ -20,6 +24,12 @@ export class BannedService {
       file,
     });
     await this.repo.save(banned);
+
+    this.twilioService.client.messages.create({
+      body: `Adress Ip ${banned.ipAddress} was banned due to anomaly traffic`,
+      from: '+14067474866',
+      to: '+2130541523275',
+    });
     return banned;
   }
 
