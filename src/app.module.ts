@@ -5,8 +5,9 @@ import { UsersModule } from './users/users.module';
 import { BannedModule } from './banned/banned.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
 import { TwilioModule } from 'nestjs-twilio';
+import { User } from './users/entities/user.entity';
+import { Banned } from './banned/entities/banned.entity';
 
 @Module({
   imports: [
@@ -18,16 +19,19 @@ import { TwilioModule } from 'nestjs-twilio';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DATABASE_HOST'),
-        port: parseInt(configService.get('DATABASE_PORT')),
-        username: configService.get('DATABASE_USER'),
-        password: configService.get('DATABASE_PASSWORD'),
-        database: configService.get('DATABASE_DB'),
-        entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-        synchronize: true,
-      }),
+      useFactory: async (configService: ConfigService) => {
+        return {
+          type: 'postgres',
+          host: 'db',
+          port: 5432,
+          username: 'postgres',
+          password: 'postgres',
+          database: 'postgres',
+          entities: [User, Banned],
+          synchronize: true,
+          autoLoadEntities: true,
+        };
+      },
     }),
     UsersModule,
     BannedModule,

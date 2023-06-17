@@ -4,13 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import * as argon2 from 'argon2';
 import { LoginDto } from './dto/login.dto';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -27,18 +26,12 @@ export class UsersService {
       throw new BadRequestException('User with this email already exists');
     }
 
-    const hash = await this.hashData(password);
-
     const user = this.repo.create({
       email,
-      password: hash,
+      password: await argon2.hash(password),
     });
     await this.repo.save(user);
     return user;
-  }
-
-  hashData(data: string) {
-    return argon2.hash(data);
   }
 
   async findAll() {

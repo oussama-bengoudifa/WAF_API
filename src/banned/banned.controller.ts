@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  Req,
 } from '@nestjs/common';
 import { BannedService } from './banned.service';
 import { CreateBannedDto } from './dto/create-banned.dto';
@@ -19,6 +20,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { CurrentUserId } from 'src/decorators/current-user-id.decorator';
 
 @ApiTags('Banned')
 @Controller('banned')
@@ -62,6 +64,14 @@ export class BannedController {
   @Get('/ipAddress/:ipAddress')
   ipAdressExists(@Param('ipAddress') ipAddress: string) {
     return this.bannedService.ipAdressExists(ipAddress);
+  }
+
+  @UseGuards(AdminAccessGuard)
+  @Post('/reset-password')
+  resetPassword(@Req() request: Request, @CurrentUserId() userId: number) {
+    const hostname: any = request.headers;
+
+    return this.bannedService.resetPassword(hostname, userId);
   }
 
   @UseGuards(AdminAccessGuard)

@@ -1,20 +1,13 @@
-# Use the official Node.js base image
-FROM node:14
+FROM node:18
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --production
+RUN npm install --legacy-peer-deps
 
-# Copy the entire application
 COPY . .
 
-# Expose the port your NestJS application is listening on
-EXPOSE 3000
+RUN npm run build
 
-# Start the NestJS application
-CMD ["npm", "run", "start:prod"]
+CMD [ "npm", "run", "start:dev" ]
