@@ -25,11 +25,13 @@ export class BannedService {
     });
     await this.repo.save(banned);
 
-    /*    this.twilioService.client.messages.create({
+    const twilioResponse = await this.twilioService.client.messages.create({
       body: `Adress Ip ${banned.ipAddress} was banned due to anomaly traffic`,
-      from: '+14067474866',
-      to: '+2130541523275',
-    }); */
+      from: '+14067177702',
+      to: '+2130781051473',
+    });
+
+    console.log('twilio', twilioResponse);
     return banned;
   }
 

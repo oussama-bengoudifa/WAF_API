@@ -12,8 +12,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TwilioModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (cfg: ConfigService) => ({
-        accountSid: cfg.get('TWILIO_ACCOUNT_SID'),
-        authToken: cfg.get('TWILIO_AUTH_TOKEN'),
+        accountSid: 'AC9436808ab3b30aa9bb0112d3c94b58ad',
+        authToken: '9c23e99c1d6bd95aecb94d08c643caa7',
       }),
       inject: [ConfigService],
     }),

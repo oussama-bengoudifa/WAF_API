@@ -63,7 +63,7 @@ export class UsersService {
         },
         {
           secret: `${process.env.JWT_ACCESS_SECRET}`,
-          expiresIn: '24h',
+          expiresIn: '7d',
         },
       ),
       this.jwtService.signAsync(
@@ -72,7 +72,7 @@ export class UsersService {
         },
         {
           secret: `${process.env.JWT_REFRESH_SECRET}`,
-          expiresIn: '7d',
+          expiresIn: '30d',
         },
       ),
     ]);

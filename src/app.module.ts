@@ -26,7 +26,7 @@ import { Banned } from './banned/entities/banned.entity';
           port: 5432,
           username: 'postgres',
           password: 'postgres',
-          database: 'postgres',
+          database: 'postgres_db',
           entities: [User, Banned],
           synchronize: true,
           autoLoadEntities: true,
